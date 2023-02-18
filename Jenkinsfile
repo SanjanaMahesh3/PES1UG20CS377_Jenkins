@@ -3,30 +3,26 @@ pipeline {
   stages {
     stage('Build') {
       steps {
+        build job : "PES1UG20CS377-1", wait : true
         sh 'g++ new.cpp -o new'
-        echo 'Build Stage Successful'
-      }
+        echo 'Build Stage Successful'  
     }
+  }
     stage('Test'){
-      steps {
-        sh './new'
-        echo 'Test Stage Successful'
-        post{
-          always{
-            junit 'target/surefire-reports/*.xml'
-          }
-        }
-      }
-    }
-    stage ('Deploy') {
+    steps {
+      sh './new'
+      echo 'Test Stage Successful'
+     }
+  }
+    stage ('Deploy') { 
       steps{
         echo 'Deployment Successful'
-      } 
+      }
     }
-}
+  }
   post {
     failure {
-      echo 'Pipeline failed'
+    echo 'Pipeline failed'
     }
   }
 }
